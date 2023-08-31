@@ -4,8 +4,11 @@ import {
   Input,
   Button
 } from "@nextui-org/react";
+import {useRouter} from "next/navigation";
 
 export default function Home() {
+  const router = useRouter()
+
   return (
     <>
       <div className='w-full h-full flex items-center justify-center'>
@@ -32,6 +35,7 @@ export default function Home() {
             size='lg'
             color='success'
             className='w-full'
+            onClick={() => router.push('/dashboard')}
           >
             Login
           </Button>
