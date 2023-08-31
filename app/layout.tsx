@@ -12,7 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className='dark h-full'>
       <body>
         <Providers>
-          <main className='h-screen p-10'>
+          <main className='h-screen'>
             {children}
           </main>
         </Providers>
