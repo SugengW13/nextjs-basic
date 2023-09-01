@@ -13,7 +13,7 @@ export default function CustomNavbar () {
 
   return (
     <Navbar isBordered>
-      <NavbarContent className='flex justify-center'>
+      <NavbarContent justify='start'>
         <NavbarItem>
           <Button
             color='success'
@@ -37,6 +37,17 @@ export default function CustomNavbar () {
             variant='light'
           >
             Game
+          </Button>
+        </NavbarItem>
+      </NavbarContent>
+      <NavbarContent justify='end'>
+        <NavbarItem>
+          <Button
+            color='danger'
+            variant='flat'
+            onClick={() => router.push('/')}
+          >
+            Log Out
           </Button>
         </NavbarItem>
       </NavbarContent>
