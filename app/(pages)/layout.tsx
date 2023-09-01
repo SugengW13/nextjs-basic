@@ -10,7 +10,7 @@ export default function PageLayout ({ children }: { children: React.ReactNode })
   return (
     <>
       <CustomNavbar />
-      <div className='p-10'>
+      <div className='mx-auto p-10 max-w-[1024px]'>
         { children }
       </div>
     </>
