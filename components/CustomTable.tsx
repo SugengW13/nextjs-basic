@@ -12,31 +12,34 @@ import EyeIcon from "@/components/icons/EyeIcon"
 import EditIcon from "@/components/icons/EditIcon";
 import DeleteIcon from "@/components/icons/DeleteIcon";
 import {useRouter} from "next/navigation";
-import {Publisher} from "@/types/publisher";
 
 interface Props {
-  publishers: Publisher[]
+  tableHeaders: string[]
+  tableItems: { [key: string]: any}[]
 }
 
 export default function CustomTable (props: Props) {
   const router = useRouter()
+  const tableHeaders: string[] = props.tableHeaders
+  const tableItems: { [key: string]: string }[] = props.tableItems
 
   return (
     <>
       <Table aria-label='Custom table'>
         <TableHeader>
-          <TableColumn key='no'>No</TableColumn>
-          <TableColumn key='name'>Name</TableColumn>
-          <TableColumn key='total_game'>Total Game</TableColumn>
-          <TableColumn key='action'>Actions</TableColumn>
+          { tableHeaders.map((header: string) => (
+            <TableColumn key={header.toLowerCase().replace(' ', '_')}>
+              { header }
+            </TableColumn>
+          ))}
         </TableHeader>
         <TableBody>
-          { props.publishers.map((item: Publisher, index: number) => (
+          { tableItems.map((item: { [key: string]: any }, index: number) => (
             <TableRow key={item.id}>
               <TableCell key=''>{ index + 1 }</TableCell>
               <TableCell key=''>{ item.name }</TableCell>
-              <TableCell key=''>{ item.games.length }</TableCell>
-              <TableCell>
+              <TableCell key=''>{ item.total_games }</TableCell>
+              <TableCell key=''>
                 <div className='flex items-center'>
                 <span
                   className='cursor-pointer active:opacity-50'
