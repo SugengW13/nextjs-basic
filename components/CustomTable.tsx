@@ -6,7 +6,7 @@ import {
   TableColumn,
   TableBody,
   TableRow,
-  TableCell
+  TableCell, getKeyValue
 } from "@nextui-org/react";
 import EyeIcon from "@/components/icons/EyeIcon"
 import EditIcon from "@/components/icons/EditIcon";
@@ -36,25 +36,25 @@ export default function CustomTable (props: Props) {
         <TableBody>
           { tableItems.map((item: { [key: string]: any }, index: number) => (
             <TableRow key={item.id}>
-              <TableCell key=''>{ index + 1 }</TableCell>
-              <TableCell key=''>{ item.name }</TableCell>
-              <TableCell key=''>{ item.total_games }</TableCell>
-              <TableCell key=''>
-                <div className='flex items-center'>
-                <span
-                  className='cursor-pointer active:opacity-50'
-                  onClick={() => router.push(`/publisher/${item.id}`)}
-                >
-                  <EyeIcon />
-                </span>
-                  <span className='mx-2 cursor-pointer active:opacity-50'>
-                  <EditIcon />
-                </span>
-                  <span className='cursor-pointer active:opacity-50'>
-                  <DeleteIcon />
-                </span>
-                </div>
-              </TableCell>
+              {(columnKey) =><TableCell>{
+                columnKey === 'no' ? index + 1 :
+                columnKey === 'action' ?
+                  <div className='flex items-center'>
+                    <span
+                      className='cursor-pointer active:opacity-50'
+                      onClick={() => router.push(`/publisher/${item.id}`)}
+                    >
+                      <EyeIcon />
+                    </span>
+                          <span className='mx-2 cursor-pointer active:opacity-50'>
+                      <EditIcon />
+                    </span>
+                          <span className='cursor-pointer active:opacity-50'>
+                      <DeleteIcon />
+                    </span>
+                  </div> :
+                getKeyValue(item, columnKey)}
+              </TableCell>}
             </TableRow>
           )) }
         </TableBody>

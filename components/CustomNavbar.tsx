@@ -36,6 +36,7 @@ export default function CustomNavbar () {
           <Button
             color='success'
             variant='light'
+            onClick={() => router.push('/game')}
           >
             Game
           </Button>
