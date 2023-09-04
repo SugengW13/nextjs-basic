@@ -1,6 +1,6 @@
-import {Game} from "@/types/game";
+import Game from "@/types/game";
 
-export interface Publisher {
+export default interface Publisher {
   id: number
   name: string
   created_at: Date

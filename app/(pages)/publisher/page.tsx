@@ -1,6 +1,6 @@
 import CustomTable from "@/components/CustomTable";
 import {getPublishers} from "@/libs/(api)/publisher";
-import {Publisher} from "@/types/publisher";
+import Publisher from "@/types/publisher";
 
 export default async function Publisher () {
   const publishers: Publisher[] = await getPublishers()
