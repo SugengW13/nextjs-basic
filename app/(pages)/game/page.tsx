@@ -1,6 +1,7 @@
 import CustomTable from "@/components/CustomTable";
 import {getGames} from "@/libs/(api)/game";
 import Game from "@/types/game"
+import moment from "momnet";
 
 export default async function Game () {
   const games: Game[] = await getGames()
@@ -9,7 +10,7 @@ export default async function Game () {
   const tableItems: object[] = games.map((item) => ({
     id: item.id,
     title: item.title,
-    published_at: item.published_at,
+    published_at: moment(item.published_at).format('DD-MM-YYYY'),
     publisher_name: item.publisher.name
   }))
 
