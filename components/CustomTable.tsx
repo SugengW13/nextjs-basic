@@ -6,8 +6,7 @@ import {
   TableColumn,
   TableBody,
   TableRow,
-  TableCell,
-  Button
+  TableCell
 } from "@nextui-org/react";
 import EyeIcon from "@/components/icons/EyeIcon"
 import EditIcon from "@/components/icons/EditIcon";
