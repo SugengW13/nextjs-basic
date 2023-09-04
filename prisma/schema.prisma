@@ -22,6 +22,6 @@ model Game {
   title        String
   published_at DateTime
   created_at   DateTime   @default(now())
-  publisher    Publisher? @relation(fields: [publisherId], references: [id])
-  publisherId  Int?
+  publisher    Publisher? @relation(fields: [publisher_id], references: [id])
+  publisher_id Int?
 }
