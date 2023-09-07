@@ -1,14 +1,7 @@
 'use client'
+import {Button, Link, Input} from "@nextui-org/react";
 
-import {
-  Input,
-  Button
-} from "@nextui-org/react";
-import {useRouter} from "next/navigation";
-
-export default function Home() {
-  const router = useRouter()
-
+export default function Page () {
   return (
     <>
       <div className='w-full h-full flex items-center justify-center'>
@@ -17,7 +10,7 @@ export default function Home() {
             NextJs Basic
           </h1>
           <h1 className='mb-5 font-medium'>
-            Login
+            Register
           </h1>
           <Input
             label='Email'
@@ -31,20 +24,22 @@ export default function Home() {
             isRequired
             className='mb-5'
           />
+          <Input
+            label='Password Confirmation'
+            type='password'
+            isRequired
+            className='mb-5'
+          />
+          <p className='float-right mb-5 text-sm'>
+            Already have an account?
+            <Link href='/' size='sm' color='success' className='ml-2'>
+              Login here
+            </Link>
+          </p>
           <Button
             size='lg'
             color='success'
-            className='w-full mb-5'
-            onClick={() => router.push('/dashboard')}
-          >
-            Login
-          </Button>
-          <Button
-            size='lg'
-            color='success'
-            variant='ghost'
             className='w-full'
-            onClick={() => router.push('/register')}
           >
             Register
           </Button>
