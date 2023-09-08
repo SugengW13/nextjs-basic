@@ -1,7 +1,17 @@
 'use client'
 import {Button, Link, Input} from "@nextui-org/react";
+import {useAppDispatch, useAppSelector} from "@/store/hooks";
+import {RootState} from "@/store/store";
+import {signUp} from "@/store/features/user/user-slice";
 
 export default function Page () {
+  const isLoading = useAppSelector((state: RootState) => state.user.isLoading)
+  const dispatch = useAppDispatch()
+
+  const onClickRegister = () => {
+    dispatch(signUp())
+  }
+
   return (
     <>
       <div className='w-full h-full flex items-center justify-center'>
@@ -40,6 +50,7 @@ export default function Page () {
             size='lg'
             color='success'
             className='w-full'
+            onClick={() => onClickRegister()}
           >
             Register
           </Button>
