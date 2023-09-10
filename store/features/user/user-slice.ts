@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
-import {toast} from "react-toastify";
 
 interface UserState {
   isLoading: boolean
@@ -29,10 +28,8 @@ export const signUp = createAsyncThunk('user/signUp', async (payload: {
     password_confirmation: payload.passwordConfirmation
   })
     .then((response: any) => {
-      toast(response.message)
       return true })
     .catch((error) => {
-      toast.error(error.message)
       return false
     })
 })
