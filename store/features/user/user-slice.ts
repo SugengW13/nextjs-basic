@@ -1,5 +1,6 @@
-import {createSlice} from "@reduxjs/toolkit";
-import type { PayloadAction } from '@reduxjs/toolkit'
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import axios from "axios";
+import {toast} from "react-toastify";
 
 interface UserState {
   isLoading: boolean
@@ -16,17 +17,40 @@ const initialState: UserState = {
   passwordConfirmation: '' as string,
   value: 0 as number
 }
+
+export const signUp = createAsyncThunk('user/signUp', async (payload: {
+  email: string,
+  password: string,
+  passwordConfirmation: string
+}) => {
+  return await axios.post('/api/users', {
+    email: payload.email,
+    password: payload.passwordConfirmation,
+    password_confirmation: payload.passwordConfirmation
+  })
+    .then((response: any) => {
+      toast(response.message)
+      return true })
+    .catch((error) => {
+      toast.error(error.message)
+      return false
+    })
+})
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    signUp: (state) => {
-      state.isLoading = !state.isLoading
-    }
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(signUp.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(signUp.fulfilled, (state) => {
+        state.isLoading = false
+      })
   }
 })
 
-export const {
-  signUp
-} = userSlice.actions
+export const { } = userSlice.actions
 export default userSlice.reducer
