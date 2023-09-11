@@ -5,9 +5,22 @@ import {
   Button
 } from "@nextui-org/react";
 import {useRouter} from "next/navigation";
+import {useAppDispatch, useAppSelector} from "@/store/hooks";
+import {useState} from "react";
+import {logIn} from "@/store/features/user/user-slice";
 
 export default function Home() {
   const router = useRouter()
+
+  const isLoading = useAppSelector((state) => state.user.isLoading)
+  const dispatch = useAppDispatch()
+
+  const [email, setEmail] = useState<string>('admin@gmail.com')
+  const [password, setPassword] = useState<string>('password')
+
+  const onClickLogIn = async () => {
+    dispatch(logIn({ email, password }))
+  }
 
   return (
     <>
@@ -35,7 +48,8 @@ export default function Home() {
             size='lg'
             color='success'
             className='w-full mb-5'
-            onClick={() => router.push('/dashboard')}
+            isLoading={isLoading}
+            onClick={() => onClickLogIn()}
           >
             Login
           </Button>

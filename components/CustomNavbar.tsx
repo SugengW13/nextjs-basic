@@ -7,9 +7,17 @@ import {
   Button
 } from "@nextui-org/react";
 import {useRouter} from "next/navigation";
+import {useAppDispatch, useAppSelector} from "@/store/hooks";
+import {logOut} from "@/store/features/user/user-slice";
 
 export default function CustomNavbar () {
   const router = useRouter()
+  const isLoading = useAppSelector((state) => state.user.isLoading)
+  const dispatch = useAppDispatch()
+
+  const onClickLogOut = async () => {
+    dispatch(logOut())
+  }
 
   return (
     <Navbar isBordered>
@@ -43,11 +51,13 @@ export default function CustomNavbar () {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify='end'>
+        { isLoading.toString() }
         <NavbarItem>
           <Button
             color='danger'
             variant='flat'
-            onClick={() => router.push('/')}
+            isLoading={isLoading}
+            onClick={() => onClickLogOut()}
           >
             Log Out
           </Button>
