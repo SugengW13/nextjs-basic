@@ -1,5 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
+import {signIn} from "next-auth/react";
+import {log} from "util";
 
 interface UserState {
   isLoading: boolean
@@ -34,6 +36,17 @@ export const signUp = createAsyncThunk('user/signUp', async (payload: {
     })
 })
 
+export const logIn = createAsyncThunk('user/logIn', async (payload: {
+  email: string,
+  password: string
+}) => {
+  await signIn('credentials', {
+    callbackUrl: 'http://localhost:3000/dashboard',
+    email: payload.email,
+    password: payload.password
+  })
+})
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -44,6 +57,12 @@ export const userSlice = createSlice({
         state.isLoading = true
       })
       .addCase(signUp.fulfilled, (state) => {
+        state.isLoading = false
+      })
+      .addCase(logIn.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(logIn.fulfilled, (state) => {
         state.isLoading = false
       })
   }
