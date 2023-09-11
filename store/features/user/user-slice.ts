@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
-import {signIn} from "next-auth/react";
+import {signIn, signOut} from "next-auth/react";
 import {log} from "util";
 
 interface UserState {
@@ -47,6 +47,10 @@ export const logIn = createAsyncThunk('user/logIn', async (payload: {
   })
 })
 
+export const logOut = createAsyncThunk('user/logOut', async () => {
+  await signOut({ callbackUrl: 'http://localhost:3000' })
+})
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -63,6 +67,12 @@ export const userSlice = createSlice({
         state.isLoading = true
       })
       .addCase(logIn.fulfilled, (state) => {
+        state.isLoading = false
+      })
+      .addCase(logOut.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(logOut.fulfilled, (state) => {
         state.isLoading = false
       })
   }

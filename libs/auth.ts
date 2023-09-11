@@ -7,12 +7,6 @@ import {compare} from "bcrypt-ts";
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
-  // pages: { signIn: '/' },
-  // callbacks: {
-  //   async session({ session, user }) {
-  //     return session
-  //   }
-  // },
   providers: [
     CredentialsProvider({
       credentials: {
