@@ -1,10 +1,5 @@
 import React from "react";
-import {Metadata} from "next";
 import CustomNavbar from "@/components/CustomNavbar";
-
-export const metadata: Metadata = {
-  title: 'NextJs Basic'
-}
 
 export default function PageLayout ({ children }: { children: React.ReactNode }) {
   return (

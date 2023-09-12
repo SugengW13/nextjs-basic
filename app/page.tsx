@@ -43,6 +43,7 @@ export default function Home() {
             type='email'
             isRequired
             className='mb-5'
+            value={email}
             onInput={onInputEmail}
           />
           <Input
@@ -50,6 +51,7 @@ export default function Home() {
             type='password'
             isRequired
             className='mb-5'
+            value={password}
             onInput={onInputPassword}
           />
           <Button
