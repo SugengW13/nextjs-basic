@@ -8,12 +8,12 @@ import {getItems} from "@/store/features/publisher/publisher-slice";
 export default function Publisher () {
   const dispatch = useAppDispatch()
 
-  const isLoading = useAppSelector((state) => state.publisher.isLoading)
-  const publishers = useAppSelector((state) => state.publisher.items)
-
   useEffect(() => {
     dispatch(getItems())
   }, [dispatch])
+
+  const isLoading = useAppSelector((state) => state.publisher.isLoading)
+  const publishers = useAppSelector((state) => state.publisher.items)
 
   const tableHeaders: string[] = ['No', 'Name', 'Total Games', 'Action']
   const tableItems: object[] = publishers.map((item) => ({
