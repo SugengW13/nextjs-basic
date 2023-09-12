@@ -7,6 +7,23 @@ import {compare} from "bcrypt-ts";
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
+  pages: { signIn: '/' },
+  callbacks: {
+    async jwt ({token, account, profile}) {
+      return token
+    },
+    async signIn ({}) {
+      return true;
+    },
+    async session ({ session, token }) {
+      return session
+    },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith('/')) return `${baseUrl}${url}`
+      else if (new URL(url).origin === baseUrl) return url
+      return baseUrl
+    }
+  },
   providers: [
     CredentialsProvider({
       credentials: {
