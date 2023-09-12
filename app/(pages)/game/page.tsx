@@ -1,10 +1,20 @@
-import CustomTable from "@/components/CustomTable";
-import {getGames} from "@/libs/(api)/game";
-import Game from "@/types/game"
-import moment from "momnet";
+'use client'
 
-export default async function Game () {
-  const games: Game[] = await getGames()
+import CustomTable from "@/components/CustomTable";
+import moment from "momnet";
+import {useAppDispatch, useAppSelector} from "@/store/hooks";
+import {useEffect} from "react";
+import {getItems} from "@/store/features/game/game-slice";
+
+export default function Game () {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(getItems())
+  }, [dispatch])
+
+  const isLoading = useAppSelector((state) => state.game.isLoading)
+  const games = useAppSelector((state) => state.game.items)
 
   const tableHeaders: string[] = ['No', 'Title', 'Published At', 'Publisher Name', 'Action']
   const tableItems: object[] = games.map((item) => ({
@@ -20,12 +30,15 @@ export default async function Game () {
         Game
       </h1>
 
-      <div className='w-3/4 mx-auto'>
-        <CustomTable
-          tableHeaders={tableHeaders}
-          tableItems={tableItems}
-        />
-      </div>
+      { isLoading
+        ? <h1>Loading</h1>
+        : <div className='w-3/4 mx-auto'>
+          <CustomTable
+            tableHeaders={tableHeaders}
+            tableItems={tableItems}
+          />
+        </div>
+      }
     </>
   )
 }
