@@ -42,7 +42,6 @@ export const logIn = createAsyncThunk('user/logIn', async (payload: {
 }) => {
   await signIn('credentials', {
     callbackUrl: '/dashboard',
-    // redirect: false,
     email: payload.email,
     password: payload.password
   })
