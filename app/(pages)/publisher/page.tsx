@@ -1,9 +1,19 @@
-import CustomTable from "@/components/CustomTable";
-import {getPublishers} from "@/libs/(api)/publisher";
-import Publisher from "@/types/publisher";
+'use client'
 
-export default async function Publisher () {
-  const publishers: Publisher[] = await getPublishers()
+import CustomTable from "@/components/CustomTable";
+import {useAppDispatch, useAppSelector} from "@/store/hooks";
+import {useEffect} from "react";
+import {getItems} from "@/store/features/publisher/publisher-slice";
+
+export default function Publisher () {
+  const dispatch = useAppDispatch()
+
+  const isLoading = useAppSelector((state) => state.publisher.isLoading)
+  const publishers = useAppSelector((state) => state.publisher.items)
+
+  useEffect(() => {
+    dispatch(getItems())
+  }, [dispatch])
 
   const tableHeaders: string[] = ['No', 'Name', 'Total Games', 'Action']
   const tableItems: object[] = publishers.map((item) => ({
@@ -18,12 +28,15 @@ export default async function Publisher () {
         Publisher
       </h1>
 
-      <div className='w-3/4 mx-auto'>
-        <CustomTable
-          tableHeaders={tableHeaders}
-          tableItems={tableItems}
-        />
-      </div>
+      { isLoading
+        ? <h1>Loading</h1>
+        : <div className='w-3/4 mx-auto'>
+            <CustomTable
+              tableHeaders={tableHeaders}
+              tableItems={tableItems}
+            />
+          </div>
+      }
     </>
   )
 }
