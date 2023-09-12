@@ -51,7 +51,6 @@ export default function CustomNavbar () {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify='end'>
-        { isLoading.toString() }
         <NavbarItem>
           <Button
             color='danger'
