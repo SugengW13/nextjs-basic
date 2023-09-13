@@ -41,6 +41,19 @@ export const createItem = createAsyncThunk('publisher/createItem', async (payloa
   })
 })
 
+export const deleteItem = createAsyncThunk('publisher/deleteItem', async (payload: {
+  id: string
+}, { dispatch }) => {
+  return await axios.delete(`/api/publishers/${payload.id}`)
+    .then(() => {
+      dispatch(getItems({ searchKey: '' }))
+      return true
+    })
+    .catch((error: any) => {
+      return false
+    })
+})
+
 export const publisherSlice = createSlice({
   name: 'publisher',
   initialState,
