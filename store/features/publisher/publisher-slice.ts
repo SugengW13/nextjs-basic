@@ -12,8 +12,14 @@ const initialState: PublisherState = {
   items: []
 }
 
-export const getItems = createAsyncThunk('publisher/getItems', async () => {
-  return await axios.get('/api/publishers')
+export const getItems = createAsyncThunk('publisher/getItems', async (payload: {
+  searchKey: string
+}) => {
+  return await axios.get('/api/publishers', {
+    params: {
+      search_key: payload.searchKey
+    }
+  })
     .then((response: any) => {
       return response
     })
