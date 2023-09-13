@@ -3,7 +3,7 @@
 import CustomTable from "@/components/CustomTable";
 import {useAppDispatch, useAppSelector} from "@/store/hooks";
 import {ChangeEvent, KeyboardEvent, useEffect, useState} from "react";
-import {getItems, createItem} from "@/store/features/publisher/publisher-slice";
+import {getItems, createItem, deleteItem} from "@/store/features/publisher/publisher-slice";
 import {Input, Button} from "@nextui-org/react";
 import SearchIcon from "@/components/icons/SearchIcon";
 import ModalCreatePublisher from "@/components/ModalCreatePublisher";
@@ -35,6 +35,10 @@ export default function Publisher () {
     dispatch(createItem({
       name: value
     }))
+  }
+
+  const deletePublisher = (id: string) => {
+    dispatch(deleteItem({id}))
   }
 
   const onInputSearchKey = (event: ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +82,11 @@ export default function Publisher () {
         isLoading
         ? <h1>Loading</h1>
         : publishers.length > 0
-            ? <CustomTable tableHeaders={tableHeaders} tableItems={tableItems} />
+            ? <CustomTable
+                tableHeaders={tableHeaders}
+                tableItems={tableItems}
+                deleteItem={deletePublisher}
+              />
             : <h1>Empty</h1>
       }
     </>

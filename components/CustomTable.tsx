@@ -1,5 +1,3 @@
-'use client'
-
 import {
   Table,
   TableHeader,
@@ -10,18 +8,18 @@ import {
 } from "@nextui-org/react";
 import EyeIcon from "@/components/icons/EyeIcon"
 import EditIcon from "@/components/icons/EditIcon";
-import DeleteIcon from "@/components/icons/DeleteIcon";
+import ModalDelete from "@/components/ModalDelete";
 import {useRouter} from "next/navigation";
 
 interface Props {
   tableHeaders: string[]
   tableItems: { [key: string]: any}[]
+  deleteItem: (id: string) => void
 }
 
-export default function CustomTable (props: Props) {
+export default function CustomTable ({ tableHeaders, tableItems, deleteItem }: Props) {
   const router = useRouter()
-  const tableHeaders: string[] = props.tableHeaders
-  const tableItems: { [key: string]: string }[] = props.tableItems
+  const onDeleteItem = (id: string) => { deleteItem(id) }
 
   return (
     <>
@@ -41,17 +39,15 @@ export default function CustomTable (props: Props) {
                 columnKey === 'action' ?
                   <div className='flex items-center'>
                     <span
-                      className='cursor-pointer active:opacity-50'
+                      className='mx-2 cursor-pointer active:opacity-50'
                       onClick={() => router.push(`/publisher/${item.id}`)}
                     >
                       <EyeIcon />
                     </span>
-                          <span className='mx-2 cursor-pointer active:opacity-50'>
+                    <span className='mx-2 cursor-pointer active:opacity-50'>
                       <EditIcon />
                     </span>
-                          <span className='cursor-pointer active:opacity-50'>
-                      <DeleteIcon />
-                    </span>
+                    <ModalDelete name={'test'} isLoading={false} deleteItem={() => onDeleteItem(item.id)} />
                   </div> :
                 getKeyValue(item, columnKey)}
               </TableCell>}

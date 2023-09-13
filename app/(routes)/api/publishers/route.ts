@@ -31,5 +31,31 @@ export const POST = async (req: NextRequest) => {
         )
       }
     }
+    throw e
+  }
+}
+
+export const DELETE = async (req: NextRequest) => {
+  const url = new URL(req.url).searchParams
+  const id = Number(url.get('id')) || 0
+
+  try {
+    const publisher = await prisma.publisher.delete({
+      where: { id }
+    })
+
+    return NextResponse.json(
+      { message: `Successfully deleted publisher ${publisher.name}` }
+    )
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === 'P2025') {
+        return NextResponse.json(
+          { message: `Publisher with id ${id} can\'t be found` },
+          { status: 400 }
+        )
+      }
+    }
+    throw e
   }
 }
