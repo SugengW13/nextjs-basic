@@ -83,6 +83,7 @@ export default function Publisher () {
         ? <h1>Loading</h1>
         : publishers.length > 0
             ? <CustomTable
+                isLoadingForm={isLoadingForm}
                 tableHeaders={tableHeaders}
                 tableItems={tableItems}
                 deleteItem={deletePublisher}

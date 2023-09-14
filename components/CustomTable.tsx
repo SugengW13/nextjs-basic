@@ -12,12 +12,15 @@ import ModalDelete from "@/components/ModalDelete";
 import {useRouter} from "next/navigation";
 
 interface Props {
+  isLoadingForm: boolean
   tableHeaders: string[]
   tableItems: { [key: string]: any}[]
   deleteItem: (id: string) => void
 }
 
-export default function CustomTable ({ tableHeaders, tableItems, deleteItem }: Props) {
+export default function CustomTable (
+  { isLoadingForm, tableHeaders, tableItems, deleteItem }: Props
+) {
   const router = useRouter()
   const onDeleteItem = (id: string) => { deleteItem(id) }
 
@@ -47,7 +50,7 @@ export default function CustomTable ({ tableHeaders, tableItems, deleteItem }: P
                     <span className='mx-2 cursor-pointer active:opacity-50'>
                       <EditIcon />
                     </span>
-                    <ModalDelete name={'test'} isLoading={false} deleteItem={() => onDeleteItem(item.id)} />
+                    <ModalDelete name={'test'} isLoading={isLoadingForm} deleteItem={() => onDeleteItem(item.id)} />
                   </div> :
                 getKeyValue(item, columnKey)}
               </TableCell>}

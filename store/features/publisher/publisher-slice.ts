@@ -73,6 +73,12 @@ export const publisherSlice = createSlice({
       .addCase(createItem.fulfilled, (state) => {
         state.isLoadingForm = false
       })
+      .addCase(deleteItem.pending, (state) => {
+        state.isLoadingForm = true
+      })
+      .addCase(deleteItem.fulfilled, (state) => {
+        state.isLoadingForm = false
+      })
   }
 })
 
