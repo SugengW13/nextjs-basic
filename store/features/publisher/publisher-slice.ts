@@ -54,6 +54,22 @@ export const deleteItem = createAsyncThunk('publisher/deleteItem', async (payloa
     })
 })
 
+export const updateItem = createAsyncThunk('publisher/updateItem', async (payload: {
+  id: string,
+  name: string
+}, { dispatch }) => {
+  return await axios.put(`/api/publishers/${payload.id}`, {
+    name: payload.name
+  })
+    .then(() => {
+      dispatch(getItems({ searchKey: '' }))
+      return true
+    })
+    .catch((error: any) => {
+      return false
+    })
+})
+
 export const publisherSlice = createSlice({
   name: 'publisher',
   initialState,
@@ -77,6 +93,12 @@ export const publisherSlice = createSlice({
         state.isLoadingForm = true
       })
       .addCase(deleteItem.fulfilled, (state) => {
+        state.isLoadingForm = false
+      })
+      .addCase(updateItem.pending, (state) => {
+        state.isLoadingForm = true
+      })
+      .addCase(updateItem.fulfilled, (state) => {
         state.isLoadingForm = false
       })
   }
