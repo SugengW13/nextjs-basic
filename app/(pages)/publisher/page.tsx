@@ -3,10 +3,10 @@
 import CustomTable from "@/components/CustomTable";
 import {useAppDispatch, useAppSelector} from "@/store/hooks";
 import {ChangeEvent, KeyboardEvent, useEffect, useState} from "react";
-import {getItems, createItem, deleteItem} from "@/store/features/publisher/publisher-slice";
-import {Input, Button} from "@nextui-org/react";
+import {getItems, createItem, deleteItem, updateItem} from "@/store/features/publisher/publisher-slice";
+import {Input} from "@nextui-org/react";
 import SearchIcon from "@/components/icons/SearchIcon";
-import ModalCreatePublisher from "@/components/ModalCreatePublisher";
+import ModalFormPublisher from "@/components/ModalFormPublisher";
 import moment from "momnet";
 
 export default function Publisher () {
@@ -41,6 +41,10 @@ export default function Publisher () {
     dispatch(deleteItem({id}))
   }
 
+  const updatePublisher = (id: string, name: string) => {
+    dispatch(updateItem({ id, name }))
+  }
+
   const onInputSearchKey = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchKey(event.target.value)
   }
@@ -72,9 +76,11 @@ export default function Publisher () {
           }
         />
 
-        <ModalCreatePublisher
+        <ModalFormPublisher
+          formType={'CREATE'}
           isLoading={isLoadingForm}
           addPublisher={addPublisher}
+          updatePublisher={() => {}}
         />
       </div>
 
@@ -83,9 +89,11 @@ export default function Publisher () {
         ? <h1>Loading</h1>
         : publishers.length > 0
             ? <CustomTable
+                isLoadingForm={isLoadingForm}
                 tableHeaders={tableHeaders}
                 tableItems={tableItems}
                 deleteItem={deletePublisher}
+                updateItem={updatePublisher}
               />
             : <h1>Empty</h1>
       }
