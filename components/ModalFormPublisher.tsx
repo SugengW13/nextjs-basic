@@ -7,31 +7,49 @@ import {
   ModalFooter,
   useDisclosure, Input
 } from "@nextui-org/react";
-import {useState} from "react";
+import {ReactElement, useState} from "react";
 import {ChangeEvent} from "react";
+import EditIcon from "@/components/icons/EditIcon";
 
 interface Props {
   isLoading: boolean
   addPublisher: (data: string) => void
+  updatePublisher: (data: string) => void
+  formType: string
 }
 
-export default function ModalCreatePublisher (
-  { isLoading, addPublisher }: Props
+export default function ModalFormPublisher (
+  { isLoading, addPublisher, updatePublisher, formType }: Props
 ) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure()
   const [name, setName] = useState<string>('')
+  let activator: ReactElement | null = null
 
   const onInputName = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value)
   }
 
   const onClickAdd = () => { addPublisher(name) }
+  const onClickUpdate = () => { updatePublisher(name) }
+
+  switch (formType) {
+    case 'CREATE' :
+      activator =
+        <Button size='lg' className='rounded-small' onPress={onOpen}>
+          Add Publisher
+        </Button>
+
+      break
+    case 'UPDATE' :
+      activator =
+        <span className='mx-2 cursor-pointer active:opacity-50' onClick={() => onOpen()}>
+          <EditIcon />
+        </span>; break
+  }
 
   return (
     <>
-      <Button size='lg' className='rounded-small' onPress={onOpen}>
-        Add Publisher
-      </Button>
+      { activator }
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false}>
         <ModalContent>
           {(onClose) => (
@@ -52,9 +70,9 @@ export default function ModalCreatePublisher (
                 <Button
                   color="primary"
                   isLoading={isLoading}
-                  onClick={() => onClickAdd()}
+                  onClick={() => formType === 'CREATE' ? onClickAdd() : onClickUpdate()}
                 >
-                  Add
+                  { formType === 'CREATE' ? 'Add' : 'Update'}
                 </Button>
               </ModalFooter>
             </>

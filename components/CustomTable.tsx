@@ -9,17 +9,23 @@ import {
 import EyeIcon from "@/components/icons/EyeIcon"
 import EditIcon from "@/components/icons/EditIcon";
 import ModalDelete from "@/components/ModalDelete";
+import ModalFormPublisher from "@/components/ModalFormPublisher";
 import {useRouter} from "next/navigation";
 
 interface Props {
+  isLoadingForm: boolean
   tableHeaders: string[]
   tableItems: { [key: string]: any}[]
   deleteItem: (id: string) => void
+  updateItem: (id: string, name: string) => void
 }
 
-export default function CustomTable ({ tableHeaders, tableItems, deleteItem }: Props) {
+export default function CustomTable (
+  { isLoadingForm, tableHeaders, tableItems, deleteItem, updateItem }: Props
+) {
   const router = useRouter()
   const onDeleteItem = (id: string) => { deleteItem(id) }
+  const onUpdateItem = (id: string, name: string) => { updateItem(id, name) }
 
   return (
     <>
@@ -44,10 +50,13 @@ export default function CustomTable ({ tableHeaders, tableItems, deleteItem }: P
                     >
                       <EyeIcon />
                     </span>
-                    <span className='mx-2 cursor-pointer active:opacity-50'>
-                      <EditIcon />
-                    </span>
-                    <ModalDelete name={'test'} isLoading={false} deleteItem={() => onDeleteItem(item.id)} />
+                    <ModalFormPublisher
+                      formType={'UPDATE'}
+                      isLoading={isLoadingForm}
+                      addPublisher={() => {}}
+                      updatePublisher={(event) => onUpdateItem(item.id, event)}
+                    />
+                    <ModalDelete name={'test'} isLoading={isLoadingForm} deleteItem={() => onDeleteItem(item.id)} />
                   </div> :
                 getKeyValue(item, columnKey)}
               </TableCell>}

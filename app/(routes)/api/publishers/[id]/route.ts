@@ -28,3 +28,32 @@ export const DELETE = async (req: NextRequest) => {
     throw e
   }
 }
+
+export const PUT = async (req: NextRequest) => {
+  const url = new URL(req.url).href
+  const urlArr = url.split('/')
+  const id = Number(urlArr.pop())
+
+  const { name } = await req.json()
+
+  try {
+    const publisher = await prisma.publisher.update({
+      where: { id },
+      data: { name }
+    })
+
+    return NextResponse.json(
+      { message: `Successfully updated publisher name to ${publisher.name}` }
+    )
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === 'P2025') {
+        return NextResponse.json(
+          { message: `Publisher with id ${id} can\'t be found` },
+          { status: 400 }
+        )
+      }
+    }
+    throw e
+  }
+}
